@@ -1,11 +1,9 @@
-package valueObjects;
+package farm.domain;
 
-import assertions.Assert;
-import commands.Command;
-
+import java.io.Serializable;
 import java.util.Date;
 
-public class MilkProduction extends Command {
+public class MilkProduction implements Serializable {
     private final Date date;
     private final float quantity;
 

@@ -1,0 +1,81 @@
+package farm.resources;
+
+import farm.domain.Caddle;
+import farm.domain.MilkProduction;
+import farm.dto.CaddleDTO;
+import farm.resources.baseResponse.BaseResponse;
+import farm.service.CaddleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping(value="/caddle")
+public class CaddleResource {
+
+    private CaddleService caddleService;
+
+    @Autowired
+    public CaddleResource(CaddleService caddleService) {
+        this.caddleService = caddleService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<BaseResponse> findAll() {
+        List<Caddle> caddles = this.caddleService.findAll();
+        return ResponseEntity.ok().body(new BaseResponse(caddles, true));
+    }
+
+    @RequestMapping(value = "/{id}" ,method = RequestMethod.GET)
+    public ResponseEntity<BaseResponse> findById(@PathVariable String id) {
+        Caddle caddle =  this.caddleService.findById(id);
+        if (caddle != null) {
+            return ResponseEntity.ok().body(new BaseResponse(caddle, true));
+        } else if (caddle == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.badRequest().body(new BaseResponse(caddle, false));
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<BaseResponse> add(@RequestBody CaddleDTO caddle) {
+        Caddle obj = caddleService.insert(caddle);
+        if(caddleService.hasNotifications()){
+            return ResponseEntity.badRequest().body(new BaseResponse(obj, false));
+        }
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).body(new BaseResponse(obj, true));
+    }
+
+    @RequestMapping(value="/{id}" ,method=RequestMethod.PUT)
+    public ResponseEntity edit(@RequestBody Caddle caddle, @PathVariable String id) {
+        Caddle obj = caddle;
+        obj.setId(id);
+        caddleService.update(obj);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value="/{id}/milkProductions/" ,method=RequestMethod.PUT)
+    public ResponseEntity addMilkProductions(@RequestBody MilkProduction milkProduction, @PathVariable String id) {
+        Caddle caddle = caddleService.findById(id);
+        caddle.addMilkProduction(milkProduction);
+        caddleService.update(caddle);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value="/{id}/milkProductions", method = RequestMethod.GET)
+    public ResponseEntity<BaseResponse> findMilkProductionsByCaddleId(@PathVariable String id){
+        Caddle caddle = caddleService.findById(id);
+        List<MilkProduction> milkProduction = caddle.getMilkProductions();
+        if (milkProduction.isEmpty()){
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok().body(new BaseResponse(milkProduction, true));
+        }
+    }
+
+}
