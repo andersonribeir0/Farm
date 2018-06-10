@@ -58,3 +58,9 @@ farm.iml
 .idea/misc.xml
 .idea/encodings.xml
 .idea/compiler.xml
+*.class
+target/classes/farm/domain/Caddle.class
+target/classes/farm/domain/MilkProduction.class
+target/classes/farm/dto/CaddleDTO.class
+target/classes/farm/resources/CaddleResource.class
+target/classes/farm/service/CaddleService.class
