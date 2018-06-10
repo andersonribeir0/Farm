@@ -3,6 +3,7 @@ package farm.resources;
 import farm.domain.Caddle;
 import farm.domain.MilkProduction;
 import farm.dto.CaddleDTO;
+import farm.dto.MilkProductionDTO;
 import farm.resources.baseResponse.BaseResponse;
 import farm.service.CaddleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping(value="/caddle")
 public class CaddleResource {
 
@@ -60,16 +61,17 @@ public class CaddleResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value="/{id}/milkProductions/" ,method=RequestMethod.PUT)
-    public ResponseEntity addMilkProductions(@RequestBody MilkProduction milkProduction, @PathVariable String id) {
+    @RequestMapping(value="/{id}/milkProductions", method=RequestMethod.PUT)
+    public ResponseEntity addMilkProductions(@RequestBody MilkProductionDTO milkProduction, @PathVariable String id) {
         Caddle caddle = caddleService.findById(id);
-        caddle.addMilkProduction(milkProduction);
+        MilkProduction newMilkProduction = new MilkProduction(milkProduction.getDate(), milkProduction.getQuantity());
+        caddle.addMilkProduction(newMilkProduction);
         caddleService.update(caddle);
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value="/{id}/milkProductions", method = RequestMethod.GET)
-    public ResponseEntity<BaseResponse> findMilkProductionsByCaddleId(@PathVariable String id){
+    public ResponseEntity findMilkProductionsByCaddleId(@PathVariable String id){
         Caddle caddle = caddleService.findById(id);
         List<MilkProduction> milkProduction = caddle.getMilkProductions();
         if (milkProduction.isEmpty()){

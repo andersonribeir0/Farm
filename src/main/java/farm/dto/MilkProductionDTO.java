@@ -1,29 +1,34 @@
-package farm.domain;
+package farm.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
-public class MilkProduction implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class MilkProductionDTO implements Serializable {
 
+    @NotNull
     private Date date;
+    @NotNull
     private float quantity;
 
-    public MilkProduction(Date date, float quantity) {
+    public MilkProductionDTO(Date date, float quantity) {
         this.date = date;
         this.quantity = quantity;
+    }
+
+    public MilkProductionDTO() {
     }
 
     public Date getDate() {
         return date;
     }
 
-    public float getQuantity() {
-        return quantity;
-    }
-
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public float getQuantity() {
+        return quantity;
     }
 
     public void setQuantity(float quantity) {
@@ -32,8 +37,8 @@ public class MilkProduction implements Serializable {
 
     @Override
     public String toString() {
-        return "MilkProduction{" +
-                "date=" + date +
+        return "MilkProductionDTO{" +
+                "date='" + date + '\'' +
                 ", quantity=" + quantity +
                 '}';
     }

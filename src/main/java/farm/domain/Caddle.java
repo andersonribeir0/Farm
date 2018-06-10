@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class Caddle implements Serializable {
     }
 
     public void addMilkProduction(MilkProduction milkProduction) {
+        if(this.milkProductions == null) {
+            this.milkProductions = new ArrayList<>();
+        }
         this.milkProductions.add(milkProduction);
     }
 

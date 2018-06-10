@@ -65,6 +65,8 @@ public class CaddleService extends Command {
 
     private void updateData(Caddle newObj, Caddle obj) {
         newObj.setId(obj.getId());
-        newObj.setMilkProductions(obj.getMilkProductions());
+        if(newObj.getMilkProductions().isEmpty()) {
+            newObj.setMilkProductions(obj.getMilkProductions());
+        }
     }
 }
