@@ -53,14 +53,18 @@ public class CaddleService extends Command {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
+    public boolean deleteById(String id) {
+        Caddle caddle = findById(id);
+        if(caddle == null) {
+            return false;
+        }
+        repository.delete(caddle);
+        return true;
+    }
 
 
     private void updateData(Caddle newObj, Caddle obj) {
-        newObj.setName(obj.getName());
-        newObj.setNumber(obj.getNumber());
-        newObj.setBirthDate(obj.getBirthDate());
-        newObj.setGender(obj.getGender());
+        newObj.setId(obj.getId());
         newObj.setMilkProductions(obj.getMilkProductions());
-        newObj.setWeight(obj.getWeight());
     }
 }

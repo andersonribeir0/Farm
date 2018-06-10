@@ -14,6 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value="/caddle")
 public class CaddleResource {
 
@@ -76,6 +77,15 @@ public class CaddleResource {
         } else {
             return ResponseEntity.ok().body(new BaseResponse(milkProduction, true));
         }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteCaddle(@PathVariable String id) {
+        boolean deleted = caddleService.deleteById(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
