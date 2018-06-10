@@ -1,23 +1,21 @@
 package farm.service;
 
-import commands.Command;
-import commands.ServerCommand;
 import farm.domain.Caddle;
 import farm.dto.CaddleDTO;
 import farm.repository.CaddleRepository;
 import farm.resources.exceptions.ObjectNotFoundException;
-import notifications.DomainNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
-public class CaddleService extends Command {
+public class CaddleService {
 
     private CaddleRepository repository;
-
+    private final static Logger LOGGER = Logger.getLogger(CaddleService.class.getName());
     @Autowired
     public CaddleService(CaddleRepository repository) {
         this.repository = repository;
@@ -36,7 +34,7 @@ public class CaddleService extends Command {
             caddle.setGender(caddleDTO.getGender());
             return this.repository.insert(caddle);
         } else {
-            this.addNotification(new DomainNotification("CaddleService-Insert", "Já existe um animal com número "+caddleDTO.getNumber().toString()+"."));
+            LOGGER.warning("Não é possível inserir " + caddleDTO.toString() +", pois seu número já existe.");
             return null;
         }
     }

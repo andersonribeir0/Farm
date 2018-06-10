@@ -46,7 +46,7 @@ public class CaddleResource {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<BaseResponse> add(@RequestBody CaddleDTO caddle) {
         Caddle obj = caddleService.insert(caddle);
-        if(caddleService.hasNotifications()){
+        if(obj == null){
             return ResponseEntity.badRequest().body(new BaseResponse(obj, false));
         }
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
