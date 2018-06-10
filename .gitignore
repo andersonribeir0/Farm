@@ -50,3 +50,11 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+target/classes/farm/service/CaddleService.class
+target/classes/farm/resources/CaddleResource.class
+target/classes/farm/dto/CaddleDTO.class
+farm.iml
+.idea/vcs.xml
+.idea/misc.xml
+.idea/encodings.xml
+.idea/compiler.xml
