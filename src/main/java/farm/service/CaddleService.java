@@ -32,6 +32,7 @@ public class CaddleService {
             caddle.setNumber(caddleDTO.getNumber());
             caddle.setBirthDate(caddleDTO.getBirthDate());
             caddle.setGender(caddleDTO.getGender());
+            caddle.setWeight(caddleDTO.getWeight());
             return this.repository.insert(caddle);
         } else {
             LOGGER.warning("Não é possível inserir " + caddleDTO.toString() +", pois seu número já existe.");
