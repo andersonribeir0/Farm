@@ -2,11 +2,12 @@ package farm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class FarmApplication extends WebSocketServletAutoConfiguration {
+public class FarmApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(FarmApplication.class, args);
     }
+
 }

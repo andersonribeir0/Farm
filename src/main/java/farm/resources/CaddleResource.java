@@ -15,8 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping(value="/caddle")
+@RequestMapping(value="caddle")
 public class CaddleResource {
 
     private CaddleService caddleService;
@@ -37,10 +36,9 @@ public class CaddleResource {
         Caddle caddle =  this.caddleService.findById(id);
         if (caddle != null) {
             return ResponseEntity.ok().body(new BaseResponse(caddle, true));
-        } else if (caddle == null) {
+        } else {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.badRequest().body(new BaseResponse(caddle, false));
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -91,3 +89,5 @@ public class CaddleResource {
     }
 
 }
+
+
