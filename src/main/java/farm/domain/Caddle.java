@@ -19,7 +19,7 @@ public class Caddle implements Serializable {
     private float weight;
     private Date birthDate;
     private String gender;
-    private List<MilkProduction> milkProductions;
+    private List<MilkProduction> milkProductions = new ArrayList<>();
 
     public Caddle(String id, String name, float weight, Date birthDate, String gender, Integer number, List<MilkProduction> milkProductions) {
         this.id = id;
@@ -35,9 +35,6 @@ public class Caddle implements Serializable {
     }
 
     public void addMilkProduction(MilkProduction milkProduction) {
-        if(this.milkProductions == null) {
-            this.milkProductions = new ArrayList<>();
-        }
         this.milkProductions.add(milkProduction);
     }
 

@@ -4,6 +4,7 @@ import farm.domain.Caddle;
 import farm.dto.CaddleDTO;
 import farm.repository.CaddleRepository;
 import farm.resources.exceptions.ObjectNotFoundException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,7 @@ public class CaddleService {
     }
 
     public Caddle findById(String id) {
-        Optional<Caddle> obj = repository.findById(id);
+        final Optional<Caddle> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 

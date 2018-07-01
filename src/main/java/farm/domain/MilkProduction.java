@@ -14,6 +14,9 @@ public class MilkProduction implements Serializable {
         this.quantity = quantity;
     }
 
+    public MilkProduction() {
+    }
+
     public Date getDate() {
         return date;
     }
