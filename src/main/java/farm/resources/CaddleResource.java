@@ -2,8 +2,6 @@ package farm.resources;
 
 import farm.domain.Caddle;
 import farm.domain.MilkProduction;
-import farm.dto.CaddleDTO;
-import farm.dto.MilkProductionDTO;
 import farm.resources.baseResponse.BaseResponse;
 import farm.service.CaddleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,7 @@ public class CaddleResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> add(@RequestBody CaddleDTO caddle) {
+    public ResponseEntity<BaseResponse> add(@RequestBody Caddle caddle) {
         Caddle obj = caddleService.insert(caddle);
         if(obj == null){
             return ResponseEntity.badRequest().body(new BaseResponse(obj, false));
@@ -60,7 +58,7 @@ public class CaddleResource {
     }
 
     @RequestMapping(value="/{id}/milkProductions", method=RequestMethod.PUT)
-    public ResponseEntity addMilkProductions(@RequestBody MilkProductionDTO milkProduction, @PathVariable String id) {
+    public ResponseEntity addMilkProductions(@RequestBody MilkProduction milkProduction, @PathVariable String id) {
         Caddle caddle = caddleService.findById(id);
         MilkProduction newMilkProduction = new MilkProduction(milkProduction.getDate(), milkProduction.getQuantity());
         caddle.addMilkProduction(newMilkProduction);

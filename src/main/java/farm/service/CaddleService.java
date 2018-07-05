@@ -1,22 +1,20 @@
 package farm.service;
 
 import farm.domain.Caddle;
-import farm.dto.CaddleDTO;
 import farm.repository.CaddleRepository;
 import farm.resources.exceptions.ObjectNotFoundException;
-import org.bson.types.ObjectId;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Service
+@Log
 public class CaddleService {
 
     private CaddleRepository repository;
-    private final static Logger LOGGER = Logger.getLogger(CaddleService.class.getName());
     @Autowired
     public CaddleService(CaddleRepository repository) {
         this.repository = repository;
@@ -26,22 +24,24 @@ public class CaddleService {
         return this.repository.findAll();
     }
 
-    public Caddle insert(CaddleDTO caddleDTO) {
-        if (repository.findByNumber(caddleDTO.getNumber()).isEmpty()) {
-            Caddle caddle = new Caddle();
-            caddle.setName(caddleDTO.getName());
-            caddle.setNumber(caddleDTO.getNumber());
-            caddle.setBirthDate(caddleDTO.getBirthDate());
-            caddle.setGender(caddleDTO.getGender());
-            caddle.setWeight(caddleDTO.getWeight());
-            return this.repository.insert(caddle);
+    public Caddle insert(final Caddle caddle) {
+        if (repository.findByNumber(caddle.getNumber()).isEmpty()) {
+            Caddle targetCaddle = new Caddle(
+                    caddle.getName(),
+                    caddle.getNumber(),
+                    caddle.getWeight(),
+                    caddle.getBirthDate(),
+                    caddle.getGender(),
+                    caddle.getMilkProductions()
+            );
+            return this.repository.insert(targetCaddle);
         } else {
-            LOGGER.warning("Não é possível inserir " + caddleDTO.toString() +", pois seu número já existe.");
+            log.warning("Não é possível inserir " + caddle.toString() +", pois seu número já existe.");
             return null;
         }
     }
 
-    public Caddle update(Caddle caddle) {
+    public Caddle update(final Caddle caddle) {
         Caddle obj = findById(caddle.getId());
         updateData(caddle, obj);
         repository.save(caddle);

@@ -1,43 +1,24 @@
 package farm.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
+@AllArgsConstructor
 public class MilkProduction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Date date;
     private float quantity;
 
-    public MilkProduction(Date date, float quantity) {
-        this.date = date;
-        this.quantity = quantity;
-    }
-
     public MilkProduction() {
+        this.date = null;
+        this.quantity = -1;
     }
 
-    public Date getDate() {
-        return date;
-    }
 
-    public float getQuantity() {
-        return quantity;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setQuantity(float quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "MilkProduction{" +
-                "date=" + date +
-                ", quantity=" + quantity +
-                '}';
-    }
 }
