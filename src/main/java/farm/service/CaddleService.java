@@ -1,6 +1,9 @@
 package farm.service;
 
 import farm.domain.Caddle;
+import farm.domain.MilkProduction;
+import farm.event.EventDispatcher;
+import farm.event.MilkProductionCreatedEvent;
 import farm.repository.CaddleRepository;
 import farm.resources.exceptions.ObjectNotFoundException;
 import lombok.extern.java.Log;
@@ -15,9 +18,15 @@ import java.util.Optional;
 public class CaddleService {
 
     private CaddleRepository repository;
+    private EventDispatcher eventDispatcher;
+
     @Autowired
-    public CaddleService(CaddleRepository repository) {
+    public CaddleService(
+            CaddleRepository repository,
+            EventDispatcher eventDispatcher
+    ) {
         this.repository = repository;
+        this.eventDispatcher = eventDispatcher;
     }
 
     public List<Caddle> findAll() {
@@ -62,6 +71,19 @@ public class CaddleService {
         return true;
     }
 
+    public void addMilkProduction(String id, MilkProduction milkProduction) {
+        Caddle caddle = this.findById(id);
+        MilkProduction newMilkProduction = new MilkProduction(milkProduction.getDate(), milkProduction.getQuantity());
+        caddle.addMilkProduction(newMilkProduction);
+        this.update(caddle);
+        eventDispatcher.send(
+                new MilkProductionCreatedEvent(
+                        id,
+                        milkProduction.getDate(),
+                        milkProduction.getQuantity()
+                )
+        );
+    }
 
     private void updateData(Caddle newObj, Caddle obj) {
         newObj.setId(obj.getId());

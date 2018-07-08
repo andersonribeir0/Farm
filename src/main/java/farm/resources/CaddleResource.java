@@ -59,10 +59,7 @@ public class CaddleResource {
 
     @RequestMapping(value="/{id}/milkProductions", method=RequestMethod.PUT)
     public ResponseEntity addMilkProductions(@RequestBody MilkProduction milkProduction, @PathVariable String id) {
-        Caddle caddle = caddleService.findById(id);
-        MilkProduction newMilkProduction = new MilkProduction(milkProduction.getDate(), milkProduction.getQuantity());
-        caddle.addMilkProduction(newMilkProduction);
-        caddleService.update(caddle);
+        caddleService.addMilkProduction(id, milkProduction);
         return ResponseEntity.noContent().build();
     }
 

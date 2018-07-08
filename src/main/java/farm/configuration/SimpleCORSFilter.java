@@ -1,4 +1,4 @@
-package farm;
+package farm.configuration;
 
 import java.io.IOException;
 import javax.servlet.Filter;
