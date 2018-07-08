@@ -10,6 +10,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +41,7 @@ public class CaddleService {
                     caddle.getNumber(),
                     caddle.getWeight(),
                     caddle.getBirthDate(),
-                    caddle.getGender(),
-                    caddle.getMilkProductions()
+                    caddle.getGender()
             );
             return this.repository.insert(targetCaddle);
         } else {
@@ -74,7 +74,7 @@ public class CaddleService {
     public void addMilkProduction(String id, MilkProduction milkProduction) {
         Caddle caddle = this.findById(id);
         MilkProduction newMilkProduction = new MilkProduction(milkProduction.getDate(), milkProduction.getQuantity());
-        caddle.addMilkProduction(newMilkProduction);
+        caddle = caddle.addMilkProduction(newMilkProduction);
         this.update(caddle);
         eventDispatcher.send(
                 new MilkProductionCreatedEvent(
@@ -88,7 +88,8 @@ public class CaddleService {
     private void updateData(Caddle newObj, Caddle obj) {
         newObj.setId(obj.getId());
         if(newObj.getMilkProductions().isEmpty()) {
-            newObj.setMilkProductions(obj.getMilkProductions());
+            List<MilkProduction> milkProductions = new ArrayList<>(obj.getMilkProductions());
+            newObj.addMilkProductions(milkProductions);
         }
     }
 }

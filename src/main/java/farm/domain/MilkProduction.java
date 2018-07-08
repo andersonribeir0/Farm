@@ -12,8 +12,8 @@ import java.util.Date;
 public class MilkProduction implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Date date;
-    private float quantity;
+    private final Date date;
+    private final float quantity;
 
     public MilkProduction() {
         this.date = null;
