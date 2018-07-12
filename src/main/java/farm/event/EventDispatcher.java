@@ -15,9 +15,9 @@ public class EventDispatcher {
     private String milkProductionCreatedKey;
 
     @Autowired
-    EventDispatcher(
+    public EventDispatcher(
             final RabbitTemplate rabbitTemplate,
-            @Value("${milk-production.exchange}") final String milkProductionExchange,
+            @Value("${farm.exchange}") final String milkProductionExchange,
             @Value("${milk-production.created.key}") final String milkProductionCreatedKey
 
     ) {
