@@ -79,7 +79,6 @@ public class CaddleServiceImpl implements CaddleService {
         eventDispatcher.send(
                 new MilkProductionCreatedEvent(
                         id,
-                        milkProduction.getDate(),
                         milkProduction.getQuantity()
                 )
         );
